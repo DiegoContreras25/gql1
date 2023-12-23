@@ -5,10 +5,14 @@ import { Mutation } from "./resolvers/mutation.ts";
 import { typeDefs } from "./gql/schema.ts";
 import montoose from "mongoose";
 
-const MONGO_URL = Deno.env.get("MONGO_URL");
+const MONGO_URL: string | undefined = Deno.env.get("MONGO_URL");
+
 if (!MONGO_URL) {
-  throw new Error("Please provide a MongoDB connection string");
+  console.log("MONGO_URL not found in env");
+  Deno.exit(1);
 }
+
+console.log("MONGO_URL:", MONGO_URL);
 
 // Connect to MongoDB
 await montoose.connect(MONGO_URL);
